@@ -1,6 +1,6 @@
 # 4. Run tests automatically with GitHub Actions
 
-[Previous: testing](03-testing.md) · [Back to README](../README.md)
+[Previous: testing](03-testing.md) · [Next: OOP across languages](05-oop-across-languages.md)
 
 GitHub Actions runs checks on GitHub's machines when your code changes. This is **continuous integration (CI)**: each pushed revision is checked using the same commands your team runs locally.
 

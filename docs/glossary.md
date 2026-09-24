@@ -47,3 +47,23 @@
 | **Virtual environment** | An isolated Python environment for a project's installed packages. |
 | **Workflow** | A YAML file defining automated triggers, jobs, and steps. |
 | **YAML** | The indentation-based configuration format used for GitHub workflows. |
+
+## The bigger picture
+
+See [OOP across languages](05-oop-across-languages.md) for examples and context.
+
+| Term | Plain-language meaning |
+| --- | --- |
+| **Aggregation** | A relationship where a collection refers to objects that can exist independently, as History does. |
+| **Composition** | Building behavior from collaborating objects; in strict UML usage, a stronger ownership/lifetime relationship. |
+| **Contract** | The operations and behavioral promises that callers can rely on. |
+| **Dependency** | Something another part of a program needs to perform its work. |
+| **Dependency injection** | Providing a dependency from outside instead of constructing it inside its user. |
+| **Design pattern** | A named approach to a recurring design problem, including its tradeoffs. |
+| **Duck typing** | Using an object based on supported behavior rather than requiring a particular inheritance relationship. |
+| **Interface** | The capabilities available to a caller; some languages also have an explicit `interface` construct. |
+| **Prototype** | An object from which another object can inherit properties or behavior, as in JavaScript. |
+| **Semantics** | What a language construct means or does. |
+| **SOLID** | Five principles for thinking about responsibilities, extensions, contracts, interfaces, and dependencies. |
+| **Subtype** | A type whose values should be usable where the more general type is expected, honoring its contract. |
+| **Syntax** | The spelling and structural rules for valid code in a language. |

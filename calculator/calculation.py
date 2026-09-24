@@ -11,6 +11,7 @@ class Calculation(ABC):
     def __init__(self, a: float, b: float) -> None:
         # Python calls __init__ when an object is created. self is that object.
         # Each instance stores its own operands as attributes.
+        # For Add(10, 5), self is that new Add object, a is 10, and b is 5.
         # Type hints document expected types; they do not validate values.
         self.a = a
         self.b = b

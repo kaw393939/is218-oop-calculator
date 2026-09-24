@@ -68,6 +68,7 @@ def run() -> None:
                 try:
                     a = read_number("First number: ")
                     b = read_number("Second number: ")
+                    # For command == "add", this is the same as Add(a, b).
                     calculation = operations[command](a, b)
                     # Even finite operands can produce an infinite result.
                     if not isfinite(calculation.get_result()):

@@ -4,6 +4,10 @@
 
 Use Python 3.11 or newer, Git, a terminal, and a text editor. Keep this reference repository open beside a **new, empty folder**. Type the files into that folder rather than copying the completed project.
 
+You should already recognize variables, functions, `if`, loops, and lists. If those are unfamiliar, practice them first; OOP builds on them. You are learning to organize familiar operations around objects.
+
+Commands marked `bash` belong in your terminal. Blocks marked `python` belong at Python's `>>>` prompt unless a lesson names a file. The prompt symbols are not part of what you type. Save each `.py` file in your editor before running it.
+
 ```bash
 mkdir my-oop-calculator
 cd my-oop-calculator
@@ -30,3 +34,14 @@ python -m pip install -r requirements.txt
 The application needs no third-party packages. `pytest` runs tests; `pytest-cov` measures which application paths those tests execute.
 
 **Checkpoint:** `python --version` reports 3.11 or newer, and `python -m pytest --version` succeeds. Create the application and test files in the next lessons.
+
+## When something goes wrong
+
+| What you see | What to check first |
+| --- | --- |
+| `SyntaxError` after typing a terminal command | You may be at `>>>`. Type `exit()` to return to the terminal. |
+| `No module named calculator` | Run from the folder containing `calculator/`, not from inside it. Check filenames. |
+| `No module named pytest` | Activate `.venv` and install `requirements.txt` with `python -m pip`. |
+| `IndentationError` | Use four spaces per level; compare the indicated block with the source. |
+
+Read the last line of a traceback for the error type, then find the line in your own file. Fix one issue and rerun. A typing mistake is useful feedback, not a reason to restart the project.
