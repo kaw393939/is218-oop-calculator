@@ -35,4 +35,4 @@ Expect **19 passing test cases** in this worked snapshot. The strict coverage ga
 
 All six commands work with valid finite numbers and valid removal numbers. Invalid numeric input, out-of-range removal, and interrupted input can still raise exceptions. Reproduce one failure to motivate Stage 5; this is not the final reliability specification.
 
-Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on. Shared course documents in this branch are a publication snapshot; the [current course home](https://github.com/kaw393939/is218-oop-calculator) carries later introductory updates.
+Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on.
