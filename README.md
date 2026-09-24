@@ -34,4 +34,4 @@ Expect **37 passing test cases** in this worked snapshot. The default test comma
 
 This is the final worked reference. The application, tests, and pytest configuration are unchanged from Stage 5. Add your own README and reflection in your solution; optional extensions follow the completed baseline.
 
-Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on. Shared course documents in this branch are a publication snapshot; the [current course home](https://github.com/kaw393939/is218-oop-calculator) carries later introductory updates.
+Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on.
