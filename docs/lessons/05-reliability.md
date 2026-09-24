@@ -1,84 +1,106 @@
-# Stage 5: turn mistakes into tested behavior
+# Stage 5: fix one failure at a time
 
-[Previous lesson](04-repl.md) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/05-reliability) · [Next lesson](06-ci.md)
+[Previous lesson](https://github.com/kaw393939/is218-oop-calculator/blob/learn/04-repl/docs/lessons/04-repl.md) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/05-reliability) · [Next lesson](https://github.com/kaw393939/is218-oop-calculator/blob/learn/06-ci/docs/lessons/06-ci.md)
 
 ## Why this matters
 
-A person entering `hello` should not lose the session. A removal mistake should not erase a different entry. Error handling is part of the behavior we promise, so it needs assertions just like successful arithmetic.
+A typing mistake should not end a session or corrupt valid work. We will keep every earlier regression test and add focused assertions as we handle failures. Learning new test syntax is not a prerequisite for making the program reliable.
 
 ## What you already have
 
-An interactive happy-path calculator with 19 tests and a recorded invalid-input failure. The model already rejects invalid history requests; the CLI still needs to translate those exceptions into helpful messages.
+Stage 4's calculator, **19 reference tests**, and the `hello` crash. Preserve all previous tests, including the independent-instance check and your own additions.
 
 ## What you will add
 
-You will recover from expected errors, preserve history after rejected requests, read missing-line and branch reports, and finish with a meaningful coverage gate.
+**5A: invalid operands → 5B: invalid removal → 5C: remaining boundaries and coverage gate.** Parametrization is an optional cleanup after the behavior is correct.
 
-Update `calculator/cli.py`, expand the three files under `tests/`, and add `pytest.ini` **last**. [Compare with Stage 4](https://github.com/kaw393939/is218-oop-calculator/compare/learn/04-repl...learn/05-reliability).
+[Compare with Stage 4](https://github.com/kaw393939/is218-oop-calculator/compare/learn/04-repl...learn/05-reliability). The final root test files retain the earlier test functions and append new ones. Intermediate references below show smaller increments.
 
 ## Type and run
 
-### 1. Observe the gap
+### First, see what coverage cannot tell you
 
-Before changing the code, run:
+In your unchanged Stage 4 solution, run:
 
 ```bash
 python -m pytest --cov=calculator --cov-branch --cov-report=term-missing
 ```
 
-The tests can pass while the report shows missing paths. Coverage tells you where tests have not executed code; it does not say which behavior is correct. Write down one uncovered path and the input you think would reach it.
+The unextended reference reports **100% for `cli.py` and 98% overall**; only the entry-point module is unexecuted. Your additions may change the total.
 
-### 2. Handle the recorded failure
+Now run `python -m calculator` and enter `add`, then `hello`. It still crashes. The existing CLI paths were executed, but input recovery was never implemented. Coverage cannot report a missing branch that does not exist. **Requirements identify missing behavior; assertions check it; coverage identifies unexecuted code.** Keep this observation in your notes.
 
-Update `cli.py` in sections. Start with `read_number` and the operation's `try`/`except ValueError`. Invalid input prints feedback and uses `continue` to return to the command prompt. Save a calculation only after validation succeeds. The worked version rejects NaN, infinity, and overflowed results too.
+### 5A — Invalid operands
 
-Next handle invalid removal text separately from an out-of-range index. Finally add the outer EOF/KeyboardInterrupt handler. That outer block covers all input prompts, including operands and removal numbers.
+Use [Checkpoint 5A](https://github.com/kaw393939/is218-oop-calculator/tree/learn/05-reliability/checkpoints/05a). Before changing the CLI, append `test_invalid_first_number_recovers` from its test reference and run it:
 
-Run the existing tests after each section. Manually try an invalid operand, then a successful addition in the same session. Confirm history includes only the successful calculation.
+```bash
+python -m pytest tests/test_cli.py -k invalid_first_number
+```
 
-### 3. Assert what the application promises
+**Expect a failure** caused by converting `hello` to a float. Update the operation block in `cli.py` to catch `ValueError` before saving the object. Invalid input prints feedback and `continue` returns to the next command.
 
-Read and type the expanded tests one behavior at a time:
+Rerun that one test; it should pass. Append the invalid-second-number test, then run the entire suite. **21 reference cases pass**, and the earlier 19 remain present.
 
-| Behavior | What the test must establish |
+Manually enter invalid input, then a valid addition in the same session. Only the successful calculation should enter history. Save or commit this checkpoint before proceeding.
+
+### 5B — Invalid removal
+
+Use [Checkpoint 5B](https://github.com/kaw393939/is218-oop-calculator/tree/learn/05-reliability/checkpoints/05b). Append the two removal tests first. Run them with `python -m pytest tests/test_cli.py -k invalid_removal` and observe the current failures.
+
+Add the removal handlers. `ValueError` means the text is not an integer; `IndexError` means there is no such entry. A `try` statement's `else` runs only when its protected block succeeded, so it can print the removed object.
+
+Run the same tests, then the full suite: **23 reference cases pass**. The tests assert both the error message and preserved entries. Their ordinary loops try several boundary values; assertion messages identify which value failed.
+
+### 5C — Complete the behavior, then enforce coverage
+
+Use the root [CLI](https://github.com/kaw393939/is218-oop-calculator/blob/learn/05-reliability/calculator/cli.py) and [tests](https://github.com/kaw393939/is218-oop-calculator/tree/learn/05-reliability/tests). Keep the tests already written and append the remaining cases. Add each handler with its associated assertions, running after each group:
+
+| Work | Evidence to check |
 | --- | --- |
-| Invalid arithmetic input | A useful message, no saved calculation, and a later successful command. |
-| Invalid removal | A useful message and unchanged existing history. |
-| Empty history | Clear feedback without requesting an impossible removal. |
-| First, middle, and last removal | The correct object is returned and remaining order is preserved. |
-| Interrupted input | A clean farewell from every prompt position. |
+| Reject nonfinite operands and overflow | NaN, infinity, and an overflowed result never enter history. |
+| Handle interrupted input | EOF and Ctrl+C end cleanly at the command, operand, and removal prompts. |
+| Check collection boundaries | Empty, middle, last, and only-entry removal preserve the intended state. |
+| Check the package entry point | `python -m calculator`'s entry module starts the REPL. |
+| Check arithmetic boundaries | Decimal and negative operands produce the expected results. |
 
-The final tests use parametrization to repeat one assertion pattern with different inputs. Read a table row as arguments to the function below it. Stacked decorators generate combinations. `pytest.approx` accommodates floating-point rounding. A list comprehension is a compact loop that builds a list. In `["add", *operands, "exit"]`, `*operands` inserts each operand into the script. `pytest.raises` checks an expected exception.
+`isfinite` distinguishes ordinary finite numbers from NaN and infinity. The outer exception handler covers every prompt. The interruption test supplies answers up to a chosen prompt, then raises the expected interruption; its loops cover multiple scenarios without decorators. `runpy` exercises the entry module within the test process. `pytest.approx` allows tiny floating-point rounding differences for decimal addition.
 
-The entry-point and interruption tests are supporting techniques; focus first on the behavior each asserts. Run coverage again, inspect remaining paths, and add the relevant assertions before enforcing the final threshold.
+Run coverage again **before** typing the final configuration. Inspect missing lines, state the behavior that would execute them, and add an assertion about the expected outcome. Do not delete code or exclude lines to improve the percentage.
 
-### 4. Make the expectation repeatable
-
-Type `pytest.ini` only after the suite is complete. It enables coverage for the application, measures branches, prints missing paths, and fails below 100%.
+Only after all checks pass, type the root `pytest.ini` and run:
 
 ```bash
 python -m pytest
 ```
 
-**Expect:** 49 cases pass and line/branch coverage reaches 100%, without custom application exclusions. If you add meaningful cases, your count may be higher. For an unfinished experiment after the gate is installed, use `--cov-fail-under=0` temporarily on the command line; restore the default command for completion.
+**Expect:** 37 named reference tests and **100% line and branch coverage**. Some tests loop over multiple input examples, so test counts are not directly comparable to the earlier parametrized version. Your independent tests may increase the total. All original 19 test functions are retained.
 
-For a visual report, run `python -m pytest --cov-report=term-missing --cov-report=html` and open `htmlcov/index.html`. Generated reports stay out of Git.
+For a visual report, run `python -m pytest --cov-report=term-missing --cov-report=html` and open `htmlcov/index.html`. If investigating an incomplete experiment after installing the gate, use `--cov-fail-under=0` temporarily; restore the default command for completion.
 
 ## Explain and experiment
 
-Choose a case you could not reach with the original tests. Explain the input, the relevant branch, and the assertion that would detect incorrect behavior. Temporarily change its expected message or result, observe a failure, then restore it.
+Explain one case where requirements revealed missing behavior, then one case where coverage revealed an unexecuted path. What assertion makes each test meaningful?
+
+### Build something independently
+
+Write one conversation test that makes two unsuccessful removal attempts, then successfully removes the original item and confirms history is empty. Choose your own inputs and assert that the failed attempts did not corrupt the state. Keep it.
+
+### Optional cleanup: learn parametrization afterward
+
+[Parametrization as a refactoring](../optional-parametrization.md) translates a familiar loop into a data-driven test. It is optional, introduces no new application requirement, and should preserve the same behavior assertions. The required worked suite uses ordinary functions and loops.
 
 ## Check your understanding
 
-1. Why validate before saving the object?
-2. Why is catching every exception indiscriminately a poor substitute for understanding expected failures?
-3. Can 100% coverage prove that the arithmetic is right?
+1. Why can the Stage 4 CLI have 100% coverage and still crash on `hello`?
+2. Why should a rejected request leave existing history unchanged?
+3. Why keep older tests when adding more detailed ones?
 
 <details>
 <summary>Self-check after you explain</summary>
 
-Rejected work should not enter history. Specific handlers distinguish expected user mistakes while allowing unrelated programming defects to surface. Coverage demonstrates execution; assertions and review establish whether the results and state changes satisfy the contract.
+Coverage measures execution of existing code, not completeness of requirements. Rejecting a request should not undo previous successful work. Older tests protect earlier promises, including independent instance state, while new tests broaden the behavior checked.
 
 </details>
 
-**Ready to move on:** demonstrate recovery after a mistake, explain a missing-path test, and pass the default coverage-enforced command. Commit with `git add calculator tests pytest.ini` and `git commit -m "Stage 5: test error paths and enforce coverage"`.
+**Ready to move on:** demonstrate recovery, explain the coverage counterexample, and pass the default coverage-enforced suite. Commit your code, tests, and pytest configuration.

@@ -6,6 +6,12 @@ Introduce Calculation only after a second operation gives us a reason for a shar
 
 **Start with [the lesson](docs/lessons/02-abstraction.md)**. It explains the file order, small checkpoints, experiments, and self-check questions. Use this branch as a worked reference beside the separate solution you are typing.
 
+## Smaller checkpoints
+
+Start with [2A: two concrete classes](checkpoints/02a/README.md), then refactor to the root files for 2B. Pass six tests before introducing the abstract contract; finish with eight.
+
+Reference counts exclude your independent tasks; a higher passing count is expected when you keep those tests.
+
 ## Files added or changed
 
 - [calculator/calculation.py](calculator/calculation.py)
