@@ -1,10 +1,10 @@
-# 5. OOP is a language you can carry with you
+# The bigger picture: OOP across languages
 
-[Previous: GitHub Actions](04-github-actions.md) · [Glossary](glossary.md) · [Back to README](../README.md)
+[Course home](https://github.com/kaw393939/is218-oop-calculator) · [Glossary](glossary.md) · [Stage 6](https://github.com/kaw393939/is218-oop-calculator/tree/learn/06-ci)
 
 You are learning more than how to write a Python calculator. You are learning how to assign responsibilities, describe relationships, and let parts of a program collaborate. Those questions will follow you into other languages and much larger applications.
 
-Read this after building the calculator. The examples below are explanations and optional exercises, not additional required application files.
+Read this after Stage 6, or browse it earlier out of curiosity. The examples below are explanations and optional exercises, not additional required application files.
 
 ## Think of it as learning grammar
 

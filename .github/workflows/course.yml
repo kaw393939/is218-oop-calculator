@@ -1,0 +1,44 @@
+name: Course checks
+
+# Instructor infrastructure on the course home; students add their own CI in Stage 6.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - run: python tools/check_docs.py
+
+  worked-examples:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        stage:
+          - learn/01-objects
+          - learn/02-abstraction
+          - learn/03-history
+          - learn/04-repl
+          - learn/05-reliability
+          - learn/06-ci
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ matrix.stage }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest

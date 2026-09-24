@@ -50,7 +50,7 @@
 
 ## The bigger picture
 
-See [OOP across languages](05-oop-across-languages.md) for examples and context.
+See [OOP across languages](bigger-picture.md) for examples and context.
 
 | Term | Plain-language meaning |
 | --- | --- |
