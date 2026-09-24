@@ -6,6 +6,12 @@ Run the complete suite on clean GitHub runners and explain how the design genera
 
 **Start with [the lesson](docs/lessons/06-ci.md)**. It explains the file order, small checkpoints, experiments, and self-check questions. Use this branch as a worked reference beside the separate solution you are typing.
 
+## Smaller checkpoints
+
+Complete 6A (publish and diagnose CI) before 6B (design reflection). The lesson contains an annotated failure log and an independent README usability task.
+
+Reference counts exclude your independent tasks; a higher passing count is expected when you keep those tests.
+
 ## Files added or changed
 
 - [.github/workflows/tests.yml](.github/workflows/tests.yml)
@@ -22,7 +28,7 @@ python -m pytest
 python -m calculator
 ```
 
-Expect **49 passing test cases** in this worked snapshot. The default test command enforces 100% line and branch coverage.
+Expect **37 passing test cases** in this worked snapshot. The default test command enforces 100% line and branch coverage. Some tests cover multiple scenarios with loops; all 19 Stage 4 test functions remain unchanged.
 
 ## Stage boundary
 

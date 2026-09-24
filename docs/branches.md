@@ -6,7 +6,7 @@
 
 Browse each `learn/...` branch on GitHub beside your own solution. Type into your own project continuously, staying on its `main` branch. You do not need to switch branches in your solution to complete this course.
 
-Each worked branch contains the previous stage's code plus a focused increment. Its README identifies the lesson, source files, checkpoint, expected limitations, and the next stage. The lesson explains changes before asking you to type them. Tests begin in Stage 1.
+Each worked branch contains the previous stage's code plus a focused increment. Its README identifies the lesson, source files, checkpoint, expected limitations, and the next stage. The lesson explains changes before asking you to type them. Tests begin in Stage 1. Neighbor lesson links select the corresponding branch, so the instructions and source stay aligned.
 
 ## Run a reference locally when you need to compare behavior
 
@@ -52,3 +52,11 @@ Notice how the existing Add behavior survives the new parent class. Predict whic
 - `stage/...`: legacy references from the earlier course layout. They remain available for old links and are not part of this learning path.
 
 Worked branches are published snapshots. The current course home may receive documentation improvements afterward. A maintainer must update a checkpoint explicitly when its code or lesson changes.
+
+## Intermediate checkpoints inside a stage
+
+Stages 2, 4, and 5 include smaller worked examples in `checkpoints/`. Each folder explains exactly which source file to type into which file in your solution. These folders are references, not independent student projects: keep your existing files and run commands from your solution root. Do not copy the checkpoint directory wholesale.
+
+The root of each learning branch remains the completed stage. Checkpoint files with names such as `cli_tests.py` are source references for `tests/test_cli.py`; their different names keep pytest from collecting intermediate reference code as extra tests.
+
+Keep your earlier tests and independent tasks as you advance. The optional parametrization page is a later refactoring exercise, not permission to discard regression coverage.

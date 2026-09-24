@@ -1,78 +1,88 @@
-# Stage 4: let a person use the objects
+# Stage 4: build the conversation in three small steps
 
-[Previous lesson](03-history.md) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/04-repl) · [Next lesson](05-reliability.md)
+[Previous lesson](https://github.com/kaw393939/is218-oop-calculator/blob/learn/03-history/docs/lessons/03-history.md) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/04-repl) · [Next lesson](https://github.com/kaw393939/is218-oop-calculator/blob/learn/05-reliability/docs/lessons/05-reliability.md)
 
 ## Why this matters
 
-So far, Python experiments and tests are the only callers. A command-line interface lets a person use the same objects without writing Python expressions. The interface translates input into requests; calculation objects still own arithmetic and History still manages the collection.
+A person should be able to use the model without writing Python expressions. We will build that conversation before introducing tools that automate it.
 
 ## What you already have
 
-The complete model and 15 passing tests. This stage is a **happy-path checkpoint**: use valid finite numbers and existing removal entries. Numeric mistakes can still raise exceptions; Stage 5 will fix that deliberately exposed limitation.
+The calculation and history classes, with **15 reference tests**. Keep your own tests. This stage assumes valid finite operands and valid removal numbers; Stage 5 will handle mistakes.
 
 ## What you will add
 
-You will build the REPL, separate display from arithmetic, convert displayed numbers to list indexes, and automate one terminal conversation.
+**4A: arithmetic and exit → 4B: history and removal → 4C: automated conversations.** Each checkpoint runs independently in your solution before you advance.
 
-Type in this order:
-
-1. `calculator/cli.py`: imports, HELP, `describe`, and `show_history` first; then `run`.
-2. `calculator/__main__.py`: the package entry point.
-3. `tests/test_cli.py`: scripted conversations and output assertions.
-
-[Compare with Stage 3](https://github.com/kaw393939/is218-oop-calculator/compare/learn/03-history...learn/04-repl).
+[Compare with Stage 3](https://github.com/kaw393939/is218-oop-calculator/compare/learn/03-history...learn/04-repl). The root files show the completed stage. Intermediate worked source is linked below; do not skip straight to the completed tests.
 
 ## Type and run
 
-After typing the helpers, use a fresh Python prompt:
+### 4A — A small working REPL
 
-```python
-from calculator.cli import describe
-from calculator.calculation import Add
-print(describe(Add(10, 5)))
+Open [Checkpoint 4A](https://github.com/kaw393939/is218-oop-calculator/tree/learn/04-repl/checkpoints/04a). Type `cli.py` into `calculator/cli.py` and `entrypoint.py` into `calculator/__main__.py`. Keep all other files.
+
+From your solution root:
+
+```bash
+python -m pytest
+python -m calculator
 ```
 
-**Expect:** `Add: 10, 5 = 15`. The class name supplies a label; `get_result()` supplies behavior. An f-string inserts values; `:g` displays a float compactly.
+**Expect:** your 15 model tests still pass. Then try `add → 10 → 5`, `subtract → 20 → 7`, `help`, and `exit`. Expect results `15` and `13`, then a farewell. There are no history commands or CLI tests in this checkpoint yet.
 
-Exit Python and finish `run`. Trace its pieces:
+Read the loop in four steps: **read** text, **evaluate** the request, **print** its result, then **loop**. `break` leaves the loop. `strip().lower()` normalizes commands. `float` converts operand text.
 
-1. **Read:** `input` gives text; `strip().lower()` normalizes the command.
-2. **Evaluate:** select an operation class, read operands, construct an object, and store it.
-3. **Print:** display the result or history.
-4. **Loop:** return to the prompt until `break` handles `exit`.
+The dictionary stores classes. Selecting `operations[command]` chooses a class; calling it with `(a, b)` creates an instance. This is separate from storing an object in history.
 
-The dictionary stores classes, not instances. `operation_class = operations[command]` selects `Add` or `Subtract`; `operation_class(a, b)` creates the chosen kind of object. `float(input(...))` converts text into a number.
+**Pause:** explain one full request before adding commands.
 
-After typing `__main__.py`, run `python -m calculator` from the terminal and follow this conversation:
+### 4B — Connect History
+
+Open [Checkpoint 4B](https://github.com/kaw393939/is218-oop-calculator/tree/learn/04-repl/checkpoints/04b). Update `calculator/cli.py`; the entry point is unchanged. Read the helper functions first, then the changes to `run`.
+
+Run `python -m pytest` again: the same **15 reference tests** pass. Run the app and try:
 
 | Type | Expect |
 | --- | --- |
-| `add`, then `10`, then `5` | `Result: 15` |
-| `subtract`, then `20`, then `7` | `Result: 13` |
-| `history` | Two entries numbered 1 and 2. |
-| `remove`, then `1` | Addition removed; subtraction remains. |
-| `history` | Subtraction is now numbered 1. |
-| `help`, then `exit` | Command help, then a farewell. |
+| `add`, `10`, `5` | `Result: 15` |
+| `subtract`, `20`, `7` | `Result: 13` |
+| `history` | Two numbered entries. |
+| `remove`, `1` | Addition removed. |
+| `history` | Subtraction is now entry 1. |
+| `exit` | `Goodbye!` |
 
-Type the tests and run `python -m pytest`: expect 19 passing cases. `monkeypatch` temporarily replaces `input` with a function that supplies scripted answers. `capsys` captures printed text. `iter` makes a cursor over answers; `next` consumes one answer per prompt. Pytest restores the original input function afterward.
+`describe` asks any calculation for its result. An f-string inserts values; `:g` formats numbers compactly. `enumerate(..., start=1)` numbers entries for people. `number - 1` translates that display number to a Python index.
+
+**Pause:** point to the line that constructs the object and the separate line that saves it. Explain why History needs no new arithmetic logic.
+
+### 4C — Automate the conversation you just tried
+
+Now type the root [tests/test_cli.py](https://github.com/kaw393939/is218-oop-calculator/blob/learn/04-repl/tests/test_cli.py), first the imports, helper, and `test_arithmetic_session` only. Run `python -m pytest`: expect **16 reference cases**. Add the remaining three tests and rerun: expect **19**.
+
+`monkeypatch` temporarily replaces `input` with a function supplying scripted answers. `capsys` captures printed output. `iter` creates a cursor; `next` consumes one answer per prompt. Pytest restores input afterward. Read the list as the user's side of a conversation and the assertions as checks on the app's replies.
 
 ## Explain and experiment
 
-Change one prompt's wording, rerun the arithmetic tests, and restore it. Why should arithmetic behavior not depend on that text?
+Change a prompt's wording and rerun just the arithmetic tests with `python -m pytest tests/test_calculation.py`. Restore it afterward. Why should arithmetic not depend on prompt wording?
 
-Now try `add` followed by `hello`. Save the final traceback line in your notes. This failure is expected at this checkpoint and becomes the first problem in Stage 5. Restart the program to continue using it.
+Try `add` followed by `hello` in the app. It crashes at this checkpoint. Save the final traceback line; this intentionally unfinished behavior motivates Stage 5. Restart the app to continue.
+
+### Build something independently
+
+Write your own scripted-session test using a mixed-case arithmetic command surrounded by spaces, with operands not used in the worked conversation. Check the numerical reply and clean exit. Keep the test; no worked solution is provided.
 
 ## Check your understanding
 
-1. Where is the operation constructed, and where is it stored?
+1. How are construction, storage, and display different responsibilities?
 2. Why does removal use `number - 1`?
-3. How do `return` and `break` differ?
+3. What did the manual conversation tell you that the 15 model tests did not?
 
 <details>
 <summary>Self-check after you explain</summary>
 
-The selected class constructs the object; `history.add` records it. Display numbering starts at 1, while Python indexes start at 0. `return` leaves a function; `break` leaves the nearest loop. The farewell prints after the loop ends.
+The selected class constructs an operation, History manages its membership, and the CLI presents it. User numbering starts at 1; list indexing starts at 0. Model tests check the objects, while a terminal conversation also checks their connection to user input and output.
 
 </details>
 
-**Ready to move on:** reproduce the valid session, explain the known invalid-input failure, and pass 19 tests. Commit with `git add calculator tests` and `git commit -m "Stage 4: connect the model to a REPL"`.
+**Ready to move on:** reproduce the successful session, explain the invalid-input crash, and pass 19 reference tests plus your additions. Commit the stage before changing reliability behavior.

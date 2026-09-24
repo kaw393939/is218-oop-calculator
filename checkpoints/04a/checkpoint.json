@@ -1,0 +1,19 @@
+{
+  "base_commit": "f30e8787a73414d889121345674a75413002000c",
+  "files": {
+    "cli.py": "calculator/cli.py",
+    "entrypoint.py": "calculator/__main__.py"
+  },
+  "expected_tests": 15,
+  "sessions": [
+    {
+      "input": "add\n10\n5\nsubtract\n20\n7\nhelp\nexit\n",
+      "contains": [
+        "Result: 15",
+        "Result: 13",
+        "Commands:",
+        "Goodbye!"
+      ]
+    }
+  ]
+}

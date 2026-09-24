@@ -1,33 +1,40 @@
-# Stage 2: introduce a shared calculation contract
+# Stage 2: discover why a shared contract helps
 
-[Previous lesson](01-objects.md) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/02-abstraction) · [Next lesson](03-history.md)
+[Previous lesson](https://github.com/kaw393939/is218-oop-calculator/blob/learn/01-objects/docs/lessons/01-objects.md) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/02-abstraction) · [Next lesson](https://github.com/kaw393939/is218-oop-calculator/blob/learn/03-history/docs/lessons/03-history.md)
 
 ## Why this matters
 
-The scratchpad now needs subtraction. Both operations store two operands and return a result. A shared contract lets the rest of the program ask either object the same question without learning its arithmetic.
+The scratchpad now needs subtraction. Before introducing a parent class, build two concrete operations and notice what they have in common. Abstraction answers a problem you have seen, rather than appearing as a rule to memorize.
 
 ## What you already have
 
-Stage 1's Add object and four passing tests. Those behaviors should survive this refactoring: changing structure should not silently change addition.
+One Add class and four passing reference tests. Keep your independent test too. The existing behavior must survive each change.
 
 ## What you will add
 
-You will define an abstract `Calculation`, specialize it as `Add` and `Subtract`, and use both polymorphically. An abstract class defines required behavior; it is not itself a usable arithmetic operation.
-
-Update these files from the worked branch:
-
-1. `calculator/calculation.py`: introduce the parent; move common initialization into it; make Add a subclass; add Subtract.
-2. `tests/test_calculation.py`: preserve the original four examples and add subtraction, abstraction, and polymorphism checks.
+Two checkpoints: **2A, separate concrete classes → 2B, a shared parent and polymorphic use**. Type hints are supporting notation; inheritance and the behavioral contract are the main ideas.
 
 [Compare this stage with Stage 1](https://github.com/kaw393939/is218-oop-calculator/compare/learn/01-objects...learn/02-abstraction).
 
 ## Type and run
 
-Read the whole class relationship first. Then update `Calculation` and `Add` together before running: the parent must exist before the subclass can inherit from it. Run the original four tests to confirm the refactoring still works.
+### 2A — Add the second concrete operation
 
-`ABC` and `@abstractmethod` require a concrete subclass to supply `get_result()`. The abstract method has a docstring but no arithmetic. Type hints such as `a: float` and `-> float` document expected inputs and output; Python does not automatically validate values from these hints.
+Open [Checkpoint 2A](https://github.com/kaw393939/is218-oop-calculator/tree/learn/02-abstraction/checkpoints/02a). Its table maps worked-source filenames to the files in your solution. Type the two classes into `calculator/calculation.py`, keep your original tests, and add the two subtraction examples to `tests/test_calculation.py`.
 
-Add Subtract and the new tests. In a fresh Python prompt:
+Run `python -m pytest`: **six reference cases pass**. No abstract class or decorators are needed yet.
+
+Compare the initializers. Both store `a` and `b` in exactly the same way. The result methods differ. Circle the shared responsibility before moving it.
+
+### 2B — Refactor without changing those results
+
+Now use the root [calculation.py](https://github.com/kaw393939/is218-oop-calculator/blob/learn/02-abstraction/calculator/calculation.py). Update the parent and both subclasses together: `Calculation` owns initialization, and `Add` and `Subtract` inherit it. Their result methods stay specialized.
+
+Run your six existing tests **before adding more tests**. They should still pass. This is a refactoring checkpoint: changed organization, preserved behavior.
+
+`ABC` and `@abstractmethod` require concrete subclasses to implement `get_result()`. A docstring is a valid method body, but this abstract method provides no arithmetic. Type hints such as `a: float` and `-> float` document expectations; they do not enforce numeric validation at runtime. `-> None` means the initializer does not return a result value to its caller.
+
+Add the abstraction and polymorphism tests from the root [test file](https://github.com/kaw393939/is218-oop-calculator/blob/learn/02-abstraction/tests/test_calculation.py). In a fresh Python prompt:
 
 ```python
 from calculator.calculation import Add, Subtract
@@ -36,31 +43,31 @@ for calculation in calculations:
     print(calculation.get_result())
 ```
 
-**Expect:** `15`, then `13`. After entering the loop body at `>>>`, press Enter on a blank line to execute the block. The caller uses one interface; each object supplies its implementation.
+**Expect:** `15`, then `13`. At `>>>`, press Enter on a blank line after the loop body. The caller asks one question; each object supplies its implementation.
 
-Try `from calculator.calculation import Calculation`, then `Calculation(10, 5)`. The resulting `TypeError` is expected. Exit Python and run:
+Import `Calculation` and try constructing it. The `TypeError` is expected. In a test, `with pytest.raises(TypeError):` means the indented operation is supposed to raise that exception; pytest fails the test if it does not.
 
-```bash
-python -m pytest
-```
-
-The worked stage has eight passing tests, including one that expects that exception.
+Exit Python and run `python -m pytest`: **eight reference cases pass**, plus your own additions.
 
 ## Explain and experiment
 
-Temporarily change Subtract to add its inputs. Predict which test catches the bug, run the suite, and restore subtraction. The class still satisfies the required method name, but now violates its intended behavior. An abstract contract cannot replace assertions about correctness.
+Temporarily make Subtract add its operands. Predict which existing test fails, run it, and restore subtraction. A required method name cannot guarantee correct behavior.
+
+### Build something independently
+
+Create a test containing three calculations with numbers you choose, including a subtraction with a negative result. Use one ordinary loop to collect results. Assert the complete expected list without checking the objects' types inside the loop. Keep this test.
 
 ## Check your understanding
 
-1. Why does Add no longer need its own initializer?
-2. Why can the loop avoid `if type(calculation) == Add`?
-3. Does using the right method name guarantee the right behavior?
+1. Which responsibility moved into Calculation, and which stayed in the subclasses?
+2. Why did the six existing tests still work after the refactoring?
+3. Why can a caller use `get_result()` without identifying the subclass first?
 
 <details>
 <summary>Self-check after you explain</summary>
 
-Add inherits the initializer from Calculation. Method lookup selects the implementation belonging to each receiving object, so the loop can stay uniform. The ABC enforces the presence of an implementation; meaningful tests check its behavior.
+The parent owns operand initialization and the common method contract. Each subclass owns its arithmetic. The public behavior remained stable, so the earlier assertions still apply. Method lookup selects the receiving object's implementation, allowing a uniform loop.
 
 </details>
 
-**Ready to move on:** eight tests pass and you can explain the mixed loop. Commit with `git add calculator tests` and `git commit -m "Stage 2: share a calculation contract"`.
+**Ready to move on:** explain the duplicated code you removed, pass the eight reference cases and your additions, and commit the stage. Do not delete earlier independent tests when consulting the new worked file.
