@@ -15,7 +15,7 @@ def test_add_examples():
         assert Add(a, b).get_result() == expected
 ```
 
-Run that file and predict the result. Then replace its contents with:
+Run just this practice file with `python -m pytest tests/test_parameter_practice.py --cov-fail-under=0`. The temporary override is needed because running a single practice file does not cover the whole application. Predict its result, then replace its contents with:
 
 ```python
 import pytest
@@ -28,6 +28,6 @@ def test_add_examples(a, b, expected):
     assert Add(a, b).get_result() == expected
 ```
 
-The decorator asks pytest to call the function once per row. Three cases are now reported instead of one test containing a loop. The examples and the assertion remain equivalent. This can improve failure reporting when there are many cases.
+Rerun the same practice-file command. The decorator asks pytest to call the function once per row. Three cases are now reported instead of one test containing a loop. The examples and the assertion remain equivalent. This can improve failure reporting when there are many cases.
 
 Do not replace unrelated tests such as the independent-instance check with this arithmetic table: they protect different behavior. Run the whole suite after any refactoring. Delete this temporary practice file afterward, or keep it clearly identified as your own experiment; never delete established regressions to restore an expected count.
