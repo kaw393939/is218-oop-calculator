@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: '3.14'
@@ -50,11 +52,13 @@ jobs:
         working-directory: reference
       - run: python -m pytest
         working-directory: reference
-      - run: python course/tools/check_docs.py --root reference
-      - run: python course/tools/verify_examples.py --repository reference
-      - name: Retain earlier regression assertions
-        if: matrix.stage == 'learn/05-reliability' || matrix.stage == 'learn/06-ci'
-        run: >-
-          python -c "import sys; sys.path.insert(0, 'course/tools');
-          from pathlib import Path; from verify_examples import verify_regressions;
-          verify_regressions(Path('reference').resolve(), 'origin/learn/04-repl')"
+      - run: python course/tools/check_docs.py --root reference --stage "${{ matrix.stage }}"
+      - name: Verify checkpoints and retained regressions
+        env:
+          STAGE: ${{ matrix.stage }}
+        run: |
+          arguments=()
+          if [[ "$STAGE" == "learn/05-reliability" || "$STAGE" == "learn/06-ci" ]]; then
+            arguments+=(--preserve-from origin/learn/04-repl)
+          fi
+          python course/tools/verify_examples.py --repository reference "${arguments[@]}"

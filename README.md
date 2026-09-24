@@ -35,7 +35,7 @@ History remembers the operation and inputs, not just the answer. The six stages 
 | 5 | [Errors, tests, and coverage](https://github.com/kaw393939/is218-oop-calculator/tree/learn/05-reliability) | Handle mistakes and use missing coverage to investigate behavior. |
 | 6 | [CI and design reflection](https://github.com/kaw393939/is218-oop-calculator/tree/learn/06-ci) | Automate checks and explain how this design transfers. |
 
-Each branch contains the cumulative worked code, tests, and its lesson. Follow **predict → type → run → explain → change one thing**. [How the branches work](docs/branches.md).
+Each branch contains the cumulative worked code and tests, its own lesson, and any smaller checkpoints for that stage. Shared readings stay here on `main`. Follow **predict → type → run → explain → change one thing**. [How the branches work](docs/branches.md).
 
 ## Keep nearby
 

@@ -6,7 +6,7 @@
 
 Students build one application continuously while consulting six worked checkpoints. The sequence is concrete-first: introduce an object with observable behavior, then make a second operation create a reason for a shared abstraction. Testing begins with one direct assertion, not a parametrized matrix or a coverage target.
 
-Main is the course home. It contains no completed calculator implementation. The `learn/...` branches carry the worked answers. The old `stage/...` branches are retained for compatibility and should not be assigned to new students.
+Main holds the shared course materials. Each `learn/...` branch holds its own lesson and worked answers. Application code and tests accumulate across stages; shared readings and earlier intermediate examples do not.
 
 ## Facilitation and formative assessment
 
@@ -35,7 +35,7 @@ The Stage 4 program intentionally assumes valid numeric input and valid removal 
 
 Stage 2A exposes duplicate initializers before 2B extracts the parent. Stage 4A runs arithmetic and exit, 4B connects history, and 4C introduces automated conversations. Stage 5A handles operands, 5B handles removal, and 5C finishes boundary checks before installing the coverage gate. Stage 6A publishes and interprets CI; 6B reflects on transferable design.
 
-Each lesson has an independent task without a supplied implementation. Keep these tests when advancing; reference counts exclude student additions. The final reference preserves all 19 Stage 4 test functions unchanged and adds focused cases. Some new cases use familiar loops, so comparing its 37 function count to the old parametrized 49-case suite is not a quality metric.
+Each lesson has an independent task without a supplied implementation. Keep these tests when advancing; reference counts exclude student additions. The final reference preserves all 19 Stage 4 test functions unchanged and adds focused cases. Some tests use loops to check several inputs; assess their assertions rather than their count.
 
 Worked source under `checkpoints/` maps source filenames to target solution files. Students type the mapped code in their own project, not into the checkpoint folder. Instructor automation materializes each checkpoint from its recorded baseline and validates it separately; these checks do not count as student test cases.
 
@@ -49,12 +49,16 @@ No student usability study has been performed. Pilot setup with a student, recor
 
 ## Engineering and maintenance
 
-Main's **Course checks** workflow validates local documentation paths and runs every current worked branch's tests on Python 3.14. Only Stage 6 introduces the student's **Calculator tests** workflow, which checks Python 3.11–3.14 and enforces the coverage requirement. Central reference checks are instructor infrastructure, not an extra early-stage student assignment.
+Main's **Course checks** workflow validates lesson scope, local and cross-branch links, and every current worked branch's tests on Python 3.14. Only Stage 6 introduces the student's **Calculator tests** workflow, which checks Python 3.11–3.14 and enforces the coverage requirement. Central reference checks are instructor infrastructure, not an extra early-stage student assignment.
 
-To validate main locally, use `python tools/check_docs.py`. Main intentionally has no `pytest.ini`, `calculator/`, or `tests/` in its tracked tree. To test code, switch a separate reference clone to a learning branch.
+Course checks runs on changes to `main`. After updates limited to learning branches, select **Actions → Course checks → Run workflow** on `main` to validate all six stages.
+
+To validate main locally, run `git fetch origin --prune --tags`, then `python tools/check_docs.py`. The link check uses local Git refs, including the archive tag. Main intentionally has no `pytest.ini`, `calculator/`, or `tests/` in its tracked tree. To test code, switch a separate reference clone to a learning branch.
 
 When updating a stage, work in an isolated checkout, preserve earlier checkpoints, update its lesson and tests together, and propagate applicable changes forward through later stages. Avoid force-pushing shared teaching history. Recheck test counts, comparisons, and branch links before announcing a revision.
 
-Worked checkpoints retain the shared course documents as of publication. Update main for ongoing introductory guidance; make an explicit checkpoint revision when a learner-facing code change is needed. Keep the legacy branches until you have deliberately communicated a retirement plan.
+Update shared readings on `main` and each lesson on its owning branch. Keep smaller checkpoints only on the stage that teaches them. Checkpoint metadata and its recorded baseline commits support automated verification; retain those records when revising an example.
+
+The earlier course layout is preserved by the annotated tag [`archive/legacy-course-v1`](https://github.com/kaw393939/is218-oop-calculator/tree/archive/legacy-course-v1). Its annotation lists the seven retired `stage/...` tips; their history remains available, but their old branch URLs no longer resolve. To inspect the archive in a reference clone, run `git fetch origin --tags`, then `git switch --detach archive/legacy-course-v1`; return with `git switch main`.
 
 The repository is private. Arrange student access or distribute the materials before assigning the first lesson.

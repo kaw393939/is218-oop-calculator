@@ -46,16 +46,15 @@ Notice how the existing Add behavior survives the new parent class. Predict whic
 
 ## Branch contract
 
-- `main`: introduction, concepts, lessons, and instructor materials.
-- `learn/01-objects` through `learn/06-ci`: the current six cumulative worked checkpoints, with linear ancestry between them.
+- `main`: setup, assignment, concepts, glossary, shared readings, and instructor materials.
+- `learn/01-objects` through `learn/06-ci`: six worked stages. Each contains cumulative application code and tests, its own lesson, and only its own intermediate checkpoints.
 - `learn/06-ci`: the completed calculator; the final application and tests are already present in Stage 5, and Stage 6 adds automation and reflection.
-- `stage/...`: legacy references from the earlier course layout. They remain available for old links and are not part of this learning path.
 
-Worked branches are published snapshots. The current course home may receive documentation improvements afterward. A maintainer must update a checkpoint explicitly when its code or lesson changes.
+Each stage builds on the preceding stage's code and shares its Git ancestry. Shared readings link back to `main`; lessons live on their matching branches. This keeps one maintained copy of each explanation.
 
 ## Intermediate checkpoints inside a stage
 
-Stages 2, 4, and 5 include smaller worked examples in `checkpoints/`. Each folder explains exactly which source file to type into which file in your solution. These folders are references, not independent student projects: keep your existing files and run commands from your solution root. Do not copy the checkpoint directory wholesale.
+Stages 2, 4, and 5 include smaller worked examples in `checkpoints/` on their respective branches. Each folder explains exactly which source file to type into which file in your solution. These folders are references, not independent student projects: keep your existing files and run commands from your solution root. Do not copy the checkpoint directory wholesale.
 
 The root of each learning branch remains the completed stage. Checkpoint files with names such as `cli_tests.py` are source references for `tests/test_cli.py`; their different names keep pytest from collecting intermediate reference code as extra tests.
 
