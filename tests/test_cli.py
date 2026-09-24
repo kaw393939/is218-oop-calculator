@@ -8,13 +8,18 @@ from calculator.cli import run
 
 
 def session(monkeypatch, capsys, answers):
+    # pytest supplies these fixtures. monkeypatch temporarily replaces input;
+    # capsys captures printed output. No person needs to type during tests.
     responses = iter(answers)
+    # Each input call consumes the next scripted answer. Too few answers fail
+    # the test instead of silently hiding an unexpected extra prompt.
     monkeypatch.setattr("builtins.input", lambda prompt: next(responses))
     run()
     return capsys.readouterr().out
 
 
 def test_assignment_session(monkeypatch, capsys):
+    # Test the whole user journey, including renumbering after removal.
     output = session(monkeypatch, capsys, [
         "add", "10", "5", "subtract", "20", "7", "add", "100", "50",
         "history", "remove", "2", "history", "exit",
@@ -69,6 +74,7 @@ def test_remove_only_entry(monkeypatch, capsys):
 @pytest.mark.parametrize("exception", [EOFError, KeyboardInterrupt])
 @pytest.mark.parametrize("prefix", [[], ["add"], ["add", "1"], ["add", "1", "2", "remove"]])
 def test_interrupted_input_exits_cleanly(monkeypatch, capsys, exception, prefix):
+    # After the scripted prefix, simulate an interruption at the next prompt.
     responses = iter(prefix)
 
     def interrupted_input(prompt):
@@ -83,6 +89,7 @@ def test_interrupted_input_exits_cleanly(monkeypatch, capsys, exception, prefix)
 
 
 def test_module_entrypoint(monkeypatch, capsys):
+    # Execute the package entry point within this process so coverage sees it.
     monkeypatch.setattr("builtins.input", lambda prompt: "exit")
     runpy.run_module("calculator", run_name="__main__")
     output = capsys.readouterr().out
