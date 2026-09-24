@@ -1,4 +1,4 @@
-"""History owns its collection and rejects invalid removal requests."""
+"""Verify collection ownership, ordering, and removal boundaries."""
 
 import pytest
 
@@ -10,37 +10,59 @@ def test_empty_history():
     assert History().get_history() == []
 
 
-def test_mixed_history():
+def test_mixed_history_and_copy():
+    # Verify both the returned contents and protection of the owned collection.
     history = History()
-    first = Add(10, 5)
-    second = Subtract(20, 7)
-    history.add(first)
-    history.add(second)
-    assert history.get_history() == [first, second]
+    calculations = [Add(10, 5), Subtract(20, 7)]
+    for calculation in calculations:
+        history.add(calculation)
+    snapshot = history.get_history()
+    assert snapshot == calculations
+    snapshot.clear()
+    assert history.get_history() == calculations
 
 
-def test_returned_list_is_a_copy():
+@pytest.mark.parametrize("index", [0, 1, 2])
+def test_remove_first_middle_last(index):
+    # Identity (is) confirms we received the exact object that was stored.
     history = History()
-    calculation = Add(10, 5)
-    history.add(calculation)
-    returned_list = history.get_history()
-    returned_list.clear()
-    # Editing the copy should not erase the owned collection.
-    assert history.get_history() == [calculation]
+    calculations = [Add(1, 2), Subtract(3, 4), Add(5, 6)]
+    for calculation in calculations:
+        history.add(calculation)
+    assert history.remove(index) is calculations[index]
+    assert history.get_history() == calculations[:index] + calculations[index + 1 :]
 
 
-def test_remove():
+@pytest.mark.parametrize("populated", [False, True])
+@pytest.mark.parametrize("index", [-1, 1, 99])
+def test_invalid_removal_preserves_history(populated, index):
+    # Stacked parametrization tests every populated/index combination.
+    # Check the exception AND the unchanged state after the rejected request.
     history = History()
-    calculation = Add(10, 5)
+    if populated:
+        history.add(Add(1, 2))
+    before = history.get_history()
+    with pytest.raises(IndexError, match="Calculation does not exist"):
+        history.remove(index)
+    assert history.get_history() == before
+
+
+def test_remove_only_item():
+    history = History()
+    calculation = Add(1, 2)
     history.add(calculation)
     assert history.remove(0) is calculation
     assert history.get_history() == []
 
 
-def test_invalid_removal():
+def test_sessions_are_independent():
+    first, second = History(), History()
+    first.add(Add(1, 2))
+    assert second.get_history() == []
+
+
+def test_reject_non_calculation():
     history = History()
-    calculation = Add(10, 5)
-    history.add(calculation)
-    with pytest.raises(IndexError):
-        history.remove(-1)
-    assert history.get_history() == [calculation]
+    with pytest.raises(TypeError, match="Calculation objects only"):
+        history.add("not a calculation")
+    assert history.get_history() == []
