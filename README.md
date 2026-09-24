@@ -32,4 +32,4 @@ Expect **4 passing test cases** in this worked snapshot. The strict coverage gat
 
 There is no abstract parent, subtraction, history, or terminal interface yet. Type hints and pytest parametrization are not needed for these first examples.
 
-Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on. Shared course documents in this branch are a publication snapshot; the [current course home](https://github.com/kaw393939/is218-oop-calculator) carries later introductory updates.
+Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on.

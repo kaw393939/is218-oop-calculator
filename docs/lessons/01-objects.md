@@ -8,7 +8,7 @@ When checking game scores, a bare total such as `15` loses the inputs that produ
 
 ## What you already have
 
-Complete [setup](../setup.md). You have an empty package folder, a tests folder, a virtual environment, and test tools. There is no abstract parent or CLI yet.
+Complete [setup](https://github.com/kaw393939/is218-oop-calculator/blob/main/docs/setup.md). You have an empty package folder, a tests folder, a virtual environment, and test tools. There is no abstract parent or CLI yet.
 
 ## What you will add
 
