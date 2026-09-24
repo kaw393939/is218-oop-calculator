@@ -1,6 +1,6 @@
 # Stage 1: an object you can ask for an answer
 
-[Course home](https://github.com/kaw393939/is218-oop-calculator) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/01-objects) · [Next lesson](02-abstraction.md)
+[Course home](https://github.com/kaw393939/is218-oop-calculator) · [Worked branch](https://github.com/kaw393939/is218-oop-calculator/tree/learn/01-objects) · [Next lesson](https://github.com/kaw393939/is218-oop-calculator/blob/learn/02-abstraction/docs/lessons/02-abstraction.md)
 
 ## Why this matters
 
@@ -37,7 +37,7 @@ print(second.get_result())
 
 **Expect:** `10 5`, then `15`, then `150`. `Add` is the class. `first` and `second` refer to different instances. Exit with `exit()`.
 
-Now type only the first test in `tests/test_calculation.py`. Its three lines arrange an example, act through a method, and assert an expected answer. In the terminal:
+Now type the import at the top of `tests/test_calculation.py` and only its first test. Its three lines arrange an example, act through a method, and assert an expected answer. In the terminal:
 
 ```bash
 python -m pytest tests/test_calculation.py
@@ -45,11 +45,29 @@ python -m pytest tests/test_calculation.py
 
 One test should pass. Type the remaining tests, then run `python -m pytest`. The completed stage has four passing cases. There is no coverage threshold yet.
 
+### See two independent instances
+
+```mermaid
+flowchart LR
+    first["name: first"] --> one["Add instance 1<br/>a = 10<br/>b = 5"]
+    second["name: second"] --> two["Add instance 2<br/>a = 100<br/>b = 50"]
+```
+
+`Add` describes the kind of object. The boxes are two actual objects, each with its own attributes. During `first.get_result()`, `self` refers to the first box. During `second.get_result()`, it refers to the second.
+
+For `self.a = a`, read the left side as **this object's attribute** and the right side as **the argument received by the method**. Both are named `a`, but they play different roles.
+
 ## Explain and experiment
 
 Predict what happens if you change the first test's expected answer to `16`. Run it, inspect the difference between expected and actual values, then restore `15`. A test that calls a method without checking the answer would miss that mistake.
 
 Open a fresh Python prompt and repeat the earlier snippet to recreate `first` and `second`. Then set `first.a = 20` and ask both objects for results again. Predict which one changes. This is an experiment with mutable state, not a new application requirement.
+
+### Build something independently
+
+Choose a positive and a negative operand not used in the worked tests. Write a new test that checks the result **and** verifies that asking for it did not change either operand. Predict the result yourself; no worked implementation is supplied. Keep this test as you move forward.
+
+Your total may now exceed the reference's four tests. That is expected: checkpoint counts describe the unextended reference, not a grading target.
 
 ## Check your understanding
 

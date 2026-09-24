@@ -4,6 +4,26 @@ Start with one object. Grow it into a tested, interactive application. Learn the
 
 **This default branch is the course home, not the finished calculator.** Read the reference, then type your solution in a separate project. [Set up your workspace](docs/setup.md) first.
 
+<details>
+<summary>See the calculator you will build</summary>
+
+```text
+> add
+First number: 10
+Second number: 5
+Result: 15
+> history
+Calculation History
+
+1. Add: 10, 5 = 15
+> exit
+Goodbye!
+```
+
+History remembers the operation and inputs, not just the answer. The six stages build toward this interaction.
+
+</details>
+
 ## Your learning path
 
 | Stage | Worked-example branch | What you will be able to do |

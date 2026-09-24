@@ -34,11 +34,27 @@ jobs:
           - learn/05-reliability
           - learn/06-ci
     steps:
+      - name: Read current course validators
+        uses: actions/checkout@v5
+        with:
+          path: course
       - uses: actions/checkout@v5
         with:
           ref: ${{ matrix.stage }}
+          path: reference
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: '3.14'
       - run: python -m pip install -r requirements.txt
+        working-directory: reference
       - run: python -m pytest
+        working-directory: reference
+      - run: python course/tools/check_docs.py --root reference
+      - run: python course/tools/verify_examples.py --repository reference
+      - name: Retain earlier regression assertions
+        if: matrix.stage == 'learn/05-reliability' || matrix.stage == 'learn/06-ci'
+        run: >-
+          python -c "import sys; sys.path.insert(0, 'course/tools');
+          from pathlib import Path; from verify_examples import verify_regressions;
+          verify_regressions(Path('reference').resolve(), 'origin/learn/04-repl')"
