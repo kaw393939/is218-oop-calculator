@@ -74,7 +74,7 @@ Only after all checks pass, type the root `pytest.ini` and run:
 python -m pytest
 ```
 
-**Expect:** 37 named reference tests and **100% line and branch coverage**. Some tests loop over multiple input examples, so test counts are not directly comparable to the earlier parametrized version. Your independent tests may increase the total. All original 19 test functions are retained.
+**Expect:** 37 named reference tests and **100% line and branch coverage**. Some tests loop over multiple input examples. Your independent tests may increase the total. All original 19 test functions are retained.
 
 For a visual report, run `python -m pytest --cov-report=term-missing --cov-report=html` and open `htmlcov/index.html`. If investigating an incomplete experiment after installing the gate, use `--cov-fail-under=0` temporarily; restore the default command for completion.
 
@@ -88,7 +88,7 @@ Write one conversation test that makes two unsuccessful removal attempts, then s
 
 ### Optional cleanup: learn parametrization afterward
 
-[Parametrization as a refactoring](../optional-parametrization.md) translates a familiar loop into a data-driven test. It is optional, introduces no new application requirement, and should preserve the same behavior assertions. The required worked suite uses ordinary functions and loops.
+[Parametrization as a refactoring](https://github.com/kaw393939/is218-oop-calculator/blob/main/docs/optional-parametrization.md) translates a familiar loop into a data-driven test. It is optional, introduces no new application requirement, and should preserve the same behavior assertions. The required worked suite uses ordinary functions and loops.
 
 ## Check your understanding
 

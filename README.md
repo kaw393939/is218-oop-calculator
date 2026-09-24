@@ -37,4 +37,4 @@ Expect **37 passing test cases** in this worked snapshot. The default test comma
 
 Use 5A for operand recovery, 5B for removal recovery, and 5C for remaining boundaries. Keep earlier tests and type pytest.ini last. Parametrization is optional cleanup; the required suite uses familiar functions and loops.
 
-Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on. Shared course documents in this branch are a publication snapshot; the [current course home](https://github.com/kaw393939/is218-oop-calculator) carries later introductory updates.
+Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on.
