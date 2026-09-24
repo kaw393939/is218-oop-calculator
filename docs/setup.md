@@ -8,6 +8,20 @@ Use Python 3.11 or newer, Git, a terminal, and a text editor. You should recogni
 
 Keep this repository open as your reference. Create a **separate empty folder** for the solution you will type. Do not clone the completed code into your solution folder.
 
+## Two places, two jobs
+
+```text
+REFERENCE: this GitHub repository in your browser
+    Read lessons and worked source. Do not type your solution here.
+                         |
+                         | read, understand, then type
+                         v
+YOUR SOLUTION: my-oop-calculator/ on your computer
+    Edit files here. Run the terminal here. Commit your own work here.
+```
+
+A local reference clone is optional. If you create one later, name it `calculator-reference/` and keep it separate from `my-oop-calculator/`. Check the editor's open folder and terminal location before editing. Every lesson command runs in **your solution root** unless explicitly labeled otherwise.
+
 ## Create and activate the environment
 
 On macOS or Linux, type these commands in your terminal:

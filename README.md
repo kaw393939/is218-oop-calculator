@@ -6,6 +6,12 @@ Build one concrete Add class, create independent instances, and verify their beh
 
 **Start with [the lesson](docs/lessons/01-objects.md)**. It explains the file order, small checkpoints, experiments, and self-check questions. Use this branch as a worked reference beside the separate solution you are typing.
 
+## Smaller checkpoints
+
+The lesson includes a two-instance diagram and an independent test to write. Keep that test as you advance.
+
+Reference counts exclude your independent tasks; a higher passing count is expected when you keep those tests.
+
 ## Files added or changed
 
 - [calculator/__init__.py](calculator/__init__.py)
