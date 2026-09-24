@@ -1,0 +1,19 @@
+{
+  "base_commit": "ac5bc54eea45fbd35c1724bbf570dfe7f47b2f55",
+  "files": {
+    "cli.py": "calculator/cli.py",
+    "cli_tests.py": "tests/test_cli.py"
+  },
+  "expected_tests": 21,
+  "sessions": [
+    {
+      "input": "add\nhello\nhistory\nadd\n2\n3\nexit\n",
+      "contains": [
+        "Invalid number or result.",
+        "No calculations in history.",
+        "Result: 5",
+        "Goodbye!"
+      ]
+    }
+  ]
+}

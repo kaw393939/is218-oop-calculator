@@ -1,0 +1,24 @@
+{
+  "base_commit": "f30e8787a73414d889121345674a75413002000c",
+  "files": {
+    "cli.py": "calculator/cli.py",
+    "entrypoint.py": "calculator/__main__.py"
+  },
+  "expected_tests": 15,
+  "sessions": [
+    {
+      "input": "add\n10\n5\nsubtract\n20\n7\nhistory\nremove\n1\nhistory\nexit\n",
+      "contains": [
+        "2. Subtract: 20, 7 = 13",
+        "Removed: Add: 10, 5 = 15",
+        "1. Subtract: 20, 7 = 13",
+        "Goodbye!"
+      ]
+    },
+    {
+      "input": "add\nhello\n",
+      "exit_code": 1,
+      "stderr_contains": "ValueError"
+    }
+  ]
+}

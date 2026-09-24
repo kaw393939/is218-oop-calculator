@@ -27,9 +27,17 @@ Use **predict → type → run → explain → change one thing**. Ask students 
 
 Each lesson has objectives, a motivating problem, a file order, runnable checkpoints, one small experiment, and exit questions with a collapsible self-check. The self-check is feedback after an attempt, not a replacement for an explanation in the student's own words.
 
-During a demonstration, intentionally change an expected result so one test fails, then restore it. This shows that a green check means something was asserted. At Stage 5, run coverage before adding all missing cases; do not introduce the 100% gate until students have investigated the missing paths.
+During a demonstration, intentionally change an expected result so one test fails, then restore it. This shows that a green check means something was asserted. At Stage 5, demonstrate that the Stage 4 CLI has 100% coverage but still crashes on invalid text. Separate missing requirements from unexecuted code, then add recovery one test at a time. Install the coverage gate last. Parametrization is optional cleanup, not a required testing prerequisite.
 
 The Stage 4 program intentionally assumes valid numeric input and valid removal numbers. Reproduce a failure there to motivate Stage 5. Do not grade Stage 4 as though it were the final specification.
+
+## Use the smaller checkpoints
+
+Stage 2A exposes duplicate initializers before 2B extracts the parent. Stage 4A runs arithmetic and exit, 4B connects history, and 4C introduces automated conversations. Stage 5A handles operands, 5B handles removal, and 5C finishes boundary checks before installing the coverage gate. Stage 6A publishes and interprets CI; 6B reflects on transferable design.
+
+Each lesson has an independent task without a supplied implementation. Keep these tests when advancing; reference counts exclude student additions. The final reference preserves all 19 Stage 4 test functions unchanged and adds focused cases. Some new cases use familiar loops, so comparing its 37 function count to the old parametrized 49-case suite is not a quality metric.
+
+Worked source under `checkpoints/` maps source filenames to target solution files. Students type the mapped code in their own project, not into the checkpoint folder. Instructor automation materializes each checkpoint from its recorded baseline and validates it separately; these checks do not count as student test cases.
 
 ## Assessment and pacing
 
