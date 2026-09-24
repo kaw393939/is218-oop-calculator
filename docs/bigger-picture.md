@@ -67,7 +67,7 @@ Here are connections to our calculator. These are teaching comparisons, not a cl
 | --- | --- | --- |
 | **Strategy** | A route planner chooses walking or driving directions through a shared request. | Our operations share a result interface. That resembles interchangeable behavior, but the app does not have a separate context holding a replaceable strategy. |
 | **Command** | An editor represents a user request as an object that can be queued or saved. | A calculation packages an operation and its operands. We have no general command executor or undo behavior. Removing a history entry is not undoing a state-changing command. |
-| **Factory-style selection** | A menu choice determines which kind of item gets created. | `operations[command](a, b)` chooses a class and constructs it. This simple dictionary is not the formal Factory Method pattern, which delegates creation through an overridable method. |
+| **Factory-style selection** | A menu choice determines which kind of item gets created. | `operations[command]` selects a class; calling that selected class with `(a, b)` constructs the object. This simple dictionary is not the formal Factory Method pattern, which delegates creation through an overridable method. |
 
 You do not earn better design by adding more patterns. First identify an actual problem, then ask whether the pattern solves it more clearly than the simpler code.
 

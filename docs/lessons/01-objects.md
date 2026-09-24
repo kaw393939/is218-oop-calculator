@@ -49,7 +49,7 @@ One test should pass. Type the remaining tests, then run `python -m pytest`. The
 
 Predict what happens if you change the first test's expected answer to `16`. Run it, inspect the difference between expected and actual values, then restore `15`. A test that calls a method without checking the answer would miss that mistake.
 
-In a Python prompt, set `first.a = 20` and ask both objects for results again. Predict which one changes. This is an experiment with mutable state, not a new application requirement.
+Open a fresh Python prompt and repeat the earlier snippet to recreate `first` and `second`. Then set `first.a = 20` and ask both objects for results again. Predict which one changes. This is an experiment with mutable state, not a new application requirement.
 
 ## Check your understanding
 
