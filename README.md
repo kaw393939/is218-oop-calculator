@@ -33,4 +33,4 @@ Expect **15 passing test cases** in this worked snapshot. The strict coverage ga
 
 The model handles invalid collection requests by raising exceptions. A user interface will translate requests in Stage 4 and handle numeric/removal mistakes in Stage 5.
 
-Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on. Shared course documents in this branch are a publication snapshot; the [current course home](https://github.com/kaw393939/is218-oop-calculator) carries later introductory updates.
+Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on.
