@@ -6,6 +6,12 @@ Read commands, construct calculation objects, manage history, and print results.
 
 **Start with [the lesson](docs/lessons/04-repl.md)**. It explains the file order, small checkpoints, experiments, and self-check questions. Use this branch as a worked reference beside the separate solution you are typing.
 
+## Smaller checkpoints
+
+Start with [4A: arithmetic and exit](checkpoints/04a/README.md), then [4B: history and removal](checkpoints/04b/README.md). Both preserve 15 model tests. In 4C, add one CLI test for 16 cases, then the remaining tests for 19.
+
+Reference counts exclude your independent tasks; a higher passing count is expected when you keep those tests.
+
 ## Files added or changed
 
 - [calculator/cli.py](calculator/cli.py)
