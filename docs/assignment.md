@@ -40,7 +40,7 @@ History is in memory for one session. The calculator uses Python floating-point 
 5. Your README explains installation, running, testing, and the main design choices in your own words.
 6. Your commit history records the six checkpoints. Include a short reflection answering the Stage 6 transfer questions.
 
-The final reference has 49 test cases. Your test count may differ if you add meaningful cases; coverage alone is not proof of correctness. Do not remove behavior or exclude application code to reach the threshold.
+The final reference has 37 test cases. Your test count may differ if you add meaningful cases; coverage alone is not proof of correctness. Do not remove behavior or exclude application code to reach the threshold.
 
 ## How understanding will be assessed
 

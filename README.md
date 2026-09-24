@@ -6,6 +6,12 @@ Give History responsibility for storing and removing objects without exposing it
 
 **Start with [the lesson](docs/lessons/03-history.md)**. It explains the file order, small checkpoints, experiments, and self-check questions. Use this branch as a worked reference beside the separate solution you are typing.
 
+## Smaller checkpoints
+
+The lesson pairs a two-list diagram with both list-clearing and object-mutation experiments. Write your own empty-history test before advancing.
+
+Reference counts exclude your independent tasks; a higher passing count is expected when you keep those tests.
+
 ## Files added or changed
 
 - [calculator/history.py](calculator/history.py)
