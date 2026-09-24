@@ -33,4 +33,4 @@ Expect **8 passing test cases** in this worked snapshot. The strict coverage gat
 
 The model supports addition and subtraction. There is no history collection or user interface yet. Original addition tests remain as regression checks.
 
-Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on. Shared course documents in this branch are a publication snapshot; the [current course home](https://github.com/kaw393939/is218-oop-calculator) carries later introductory updates.
+Explain this lesson's exit questions and restore any deliberate experiments before committing your solution and moving on.
